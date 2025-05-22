@@ -1,0 +1,80 @@
+# Java
+*.class
+*.jar
+*.war
+*.iml
+
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+/build/
+.gradle/
+**/build/
+**/out/
+
+# IDEs
+.idea/
+*.sw?
+*.log
+*.tmp
+*.bak
+*.sublime-project
+*.sublime-workspace
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Spring Boot
+application.yml
+application.properties
+application-*.yml
+application-*.properties
+
+# Docker and Env
+.env
+docker-compose.override.yml
+
+# Logs
+*.log
+logs/
+
+# Others
+node_modules/
+
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
