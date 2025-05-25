@@ -1,13 +1,11 @@
 package com.codewithak.dream_shop.dto;
 
-import com.codewithak.dream_shop.model.Category;
-import com.codewithak.dream_shop.model.Product;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
-
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDto {
@@ -19,5 +17,5 @@ public class ProductDto {
     private int inventory;
     private String description;
     private CategoryDto category;
-
+    private List<ImageDto> images;
 }

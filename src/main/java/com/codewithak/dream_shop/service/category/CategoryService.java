@@ -3,10 +3,10 @@ package com.codewithak.dream_shop.service.category;
 import com.codewithak.dream_shop.dto.CategoryDto;
 import com.codewithak.dream_shop.exceptions.AlreadyExistsException;
 import com.codewithak.dream_shop.exceptions.ResourceNotFoundException;
-import com.codewithak.dream_shop.mapper.CategoryMapper;
 import com.codewithak.dream_shop.model.Category;
 import com.codewithak.dream_shop.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,25 +18,24 @@ import java.util.stream.Collectors;
 public class CategoryService implements ICategoryService{
 
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public CategoryDto getCategoryById(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found!"));
-        return CategoryMapper.toDto(category);
+        return convertToDTO(category);
     }
 
     @Override
     public CategoryDto getCategoryByName(String name) {
-        return CategoryMapper.toDto(categoryRepository.findByName(name));
+        return convertToDTO(categoryRepository.findByName(name));
     }
 
     @Override
     public List<CategoryDto> getAllCategories() {
-        return categoryRepository.findAll()
-                .stream()
-                .map(CategoryMapper::toDto)
-                .collect(Collectors.toList());
+        List<Category> categories = categoryRepository.findAll();
+        return getConvertedCategories(categories);
     }
 
 
@@ -46,7 +45,7 @@ public class CategoryService implements ICategoryService{
                 .map(categoryRepository::save)
                 .orElseThrow(() -> new AlreadyExistsException(category.getName() + " already exists"));
 
-        return CategoryMapper.toDto(addedCategory);
+        return convertToDTO(addedCategory);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class CategoryService implements ICategoryService{
         existingCategory.setName(category.getName());
 
         Category updatedCategory = categoryRepository.save(existingCategory);
-        return CategoryMapper.toDto(updatedCategory);
+        return convertToDTO(updatedCategory);
     }
 
     @Override
@@ -66,5 +65,18 @@ public class CategoryService implements ICategoryService{
                 .ifPresentOrElse(categoryRepository::delete, () -> {
                     throw new ResourceNotFoundException("Category not found!");
                 });
+    }
+
+    @Override
+    public List<CategoryDto> getConvertedCategories(List<Category> categories) {
+        return categories.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CategoryDto convertToDTO(Category category) {
+        CategoryDto categoryDto = modelMapper.map(category, CategoryDto.class);
+        return categoryDto;
     }
 }

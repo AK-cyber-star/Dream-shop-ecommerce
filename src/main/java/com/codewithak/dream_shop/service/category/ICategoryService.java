@@ -20,4 +20,7 @@ public interface ICategoryService {
     void deleteCategoryById(Long id);
 
 
+    List<CategoryDto> getConvertedCategories(List<Category> categories);
+
+    CategoryDto convertToDTO(Category category);
 }

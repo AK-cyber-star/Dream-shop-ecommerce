@@ -44,7 +44,7 @@ public class ImageController {
                 .body(resource);
     }
 
-    @PutMapping("/image/{imageId}/update")
+    @PutMapping("/{imageId}")
     public ResponseEntity<ApiResponse> updateImage(@PathVariable Long imageId, @RequestBody MultipartFile file) {
         try {
             Image image = imageService.getImageById(imageId);
@@ -60,7 +60,7 @@ public class ImageController {
                 .body(new ApiResponse("Update failed!", HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
-    @DeleteMapping("/image/{imageId}/delete")
+    @DeleteMapping("/{imageId}")
     public ResponseEntity<ApiResponse> deleteImage(@PathVariable Long imageId) {
         try {
             Image image = imageService.getImageById(imageId);

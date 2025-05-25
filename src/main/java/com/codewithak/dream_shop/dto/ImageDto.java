@@ -7,8 +7,8 @@ import lombok.*;
 @Data
 public class ImageDto {
 
-    private Long imageId;
-    private String imageName;
+    private Long id;
+    private String fileName;
     private String downloadUrl;
 
 }

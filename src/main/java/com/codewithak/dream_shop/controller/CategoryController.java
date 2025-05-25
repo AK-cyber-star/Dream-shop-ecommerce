@@ -20,7 +20,7 @@ public class CategoryController {
 
     private final ICategoryService categoryService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<ApiResponse> getAllCategories() {
         try {
             List<CategoryDto> categories = categoryService.getAllCategories();
@@ -32,7 +32,7 @@ public class CategoryController {
 
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<ApiResponse> addCategory(@RequestBody Category name) {
         try {
             CategoryDto theCategory = categoryService.addCategory(name);
@@ -43,7 +43,7 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/category-by-id/{id}/category")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getCategoryById(@PathVariable Long id) {
         try {
             CategoryDto theCategory = categoryService.getCategoryById(id);
@@ -54,8 +54,8 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/category-by-name/{name}/category")
-    public ResponseEntity<ApiResponse> getCategoryByName(@PathVariable String name) {
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse> getCategoryByName(@RequestParam String name) {
         try {
             CategoryDto theCategory = categoryService.getCategoryByName(name);
             return ResponseEntity.ok(new ApiResponse("Found", theCategory));
@@ -65,7 +65,7 @@ public class CategoryController {
         }
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long id) {
         try {
             categoryService.deleteCategoryById(id);
@@ -76,7 +76,7 @@ public class CategoryController {
         }
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateCategory(@PathVariable Long id, @RequestBody Category category) {
         try {
             CategoryDto updatedCategory = categoryService.updateCategory(category, id);
