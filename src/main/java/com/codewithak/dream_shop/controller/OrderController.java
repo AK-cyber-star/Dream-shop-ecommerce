@@ -2,7 +2,6 @@ package com.codewithak.dream_shop.controller;
 
 import com.codewithak.dream_shop.dto.OrderDto;
 import com.codewithak.dream_shop.exceptions.ResourceNotFoundException;
-import com.codewithak.dream_shop.model.Order;
 import com.codewithak.dream_shop.response.ApiResponse;
 import com.codewithak.dream_shop.service.order.IOrderService;
 import lombok.RequiredArgsConstructor;
@@ -30,25 +29,25 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/{orderId}")
+    @GetMapping("/order/{orderId}")
     public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long orderId) {
         try {
             OrderDto order = orderService.getOrder(orderId);
             return ResponseEntity.ok(new ApiResponse("Order success", order));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse("Order not found", e.getMessage()));
+                    .body(new ApiResponse(e.getMessage(), null));
         }
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user-order/{userId}")
     public ResponseEntity<ApiResponse> getUsersOrder(@PathVariable Long userId) {
         try {
             List<OrderDto> orders = orderService.getUserOrders(userId);
             return ResponseEntity.ok(new ApiResponse("Order success", orders));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse("Order not found", e.getMessage()));
+                    .body(new ApiResponse(e.getMessage(), null));
         }
     }
 

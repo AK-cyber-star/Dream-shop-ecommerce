@@ -1,9 +1,12 @@
 package com.codewithak.dream_shop.controller;
 
 import com.codewithak.dream_shop.exceptions.ResourceNotFoundException;
+import com.codewithak.dream_shop.model.User;
 import com.codewithak.dream_shop.response.ApiResponse;
 import com.codewithak.dream_shop.service.cart.ICartItemService;
 import com.codewithak.dream_shop.service.cart.ICartService;
+import com.codewithak.dream_shop.service.user.IUserService;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ public class CartItemController {
 
     private final ICartItemService cartItemService;
     private final ICartService cartService;
+    private final IUserService userService;
 
     // Add Item to the cart.
     @PostMapping
@@ -23,12 +27,14 @@ public class CartItemController {
                                                      @RequestParam Long productId,
                                                      @RequestParam Integer quantity) {
         try {
+            User user =  userService.getAuthenticatedUser();
             cartItemService.addItemToCart(cartId, productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Add Item success", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse(e.getMessage(), null));
-
+        } catch (JwtException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse(e.getMessage(), null));
         }
     }
 
